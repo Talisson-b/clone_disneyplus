@@ -1,8 +1,22 @@
 document.addEventListener('DOMContentLoaded', function() {
     const buttons = document.querySelectorAll('[data-tab-button]');
     const tabscontainer = document.querySelectorAll('[data-tab-id]');
+    const questions = document.querySelectorAll('[data-faq-question]');
 
-    
+    const heroSection = document.querySelector('.hero')
+    const alturaHero = heroSection.clientHeight
+
+    window.addEventListener('scroll', function(){
+        const posicaoAtual = window.scrollY
+
+        if (posicaoAtual > alturaHero) {
+            ocultaElementosHeader()
+        }else {
+            exibeElementoHeader()
+        }
+    })
+
+    // seção de atrações, programação das abas
     for (let i = 0; i < buttons.length; i++) {
         buttons[i].addEventListener('click', function(botao){
             const abaAlvo = botao.target.dataset.tabButton;
@@ -16,7 +30,32 @@ document.addEventListener('DOMContentLoaded', function() {
             
         })
     }
+
+
+    // seção Faq accordion
+    for (let i = 0; i < questions.length; i++) {
+        questions[i].addEventListener('click', abreOuFecheResposta)
+    }
 });
+
+// funcao para remover ou adicionar a classe que oculta o header
+function ocultaElementosHeader() {
+    const header = document.querySelector('header')
+    header.classList.add('header--is-hidden')
+}
+
+function exibeElementoHeader() {
+    const header = document.querySelector('header')
+    header.classList.remove('header--is-hidden')
+}
+
+// função para abrir ou fechar as perguntas do FAQ
+function abreOuFecheResposta(elemento) {
+    const classe =  'faq__questions__item--is-open'
+    const elementoPai = elemento.target.parentNode
+
+    elementoPai.classList.toggle(classe)
+}
 
 function removeBotaoAtivo() {
     const buttons = document.querySelectorAll('[data-tab-button]');
